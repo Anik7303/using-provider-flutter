@@ -1,45 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
-class Person {
+class Person with ChangeNotifier {
   final String name;
-  final int age;
+  int age;
 
   Person({this.name, this.age});
+
+  void increaseAge() {
+    age++;
+    notifyListeners();
+  }
 }
 
 void main() {
-  runApp(
-    Provider(
-      create: (_) => Person(name: 'Yohan', age: 25),
-      child: MyApp(),
-    ),
-  );
-}
+  Person person = Person(name: 'Yohan', age: 25);
 
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: MyHomePage(),
-    );
-  }
-}
+  // 'addListener' is a method on the 'ChangeNotifier' class,
+  // which is mixed-in to the Person class
+  person.addListener(() {
+    print('value updated: ${person.age}');
+  });
 
-class MyHomePage extends StatelessWidget {
-  MyHomePage({Key key}) : super(key: key);
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Provider Class'),
-      ),
-      body: Center(
-        child: Text(
-          'Hi ${context.select((Person p) => p.name)}!\nYou are ${Provider.of<Person>(context).age} years old.',
-          textAlign: TextAlign.center,
-        ),
-      ),
-    );
-  }
+  person.increaseAge();
 }
