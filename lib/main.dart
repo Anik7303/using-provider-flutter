@@ -8,7 +8,8 @@ class Person with ChangeNotifier {
   Person({this.name, this.age});
 
   void increaseAge() {
-    age++;
+    int temp = age + 1;
+    age = temp;
     notifyListeners();
   }
 }
@@ -37,16 +38,13 @@ class MyHomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<Person>(
-      builder: (context, person, child) => Scaffold(
+    return Selector<Person, String>(
+      selector: (BuildContext context, Person person) => person.name,
+      builder: (context, String name, child) => Scaffold(
         appBar: AppBar(
-          title: Text('${person.name} -- ${person.age} years old'),
+          title: Text('$name -- ${Provider.of<Person>(context).age} years old'),
         ),
         body: child,
-        floatingActionButton: FloatingActionButton(
-          child: Icon(Icons.add),
-          onPressed: () => person.increaseAge(),
-        ),
       ),
       child: Center(
         child: Text(
