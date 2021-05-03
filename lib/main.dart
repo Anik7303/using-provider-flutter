@@ -26,6 +26,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: MyHomePage(),
     );
   }
@@ -36,23 +37,24 @@ class MyHomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Provider Class'),
-      ),
-      body: Center(
-        child: Text(
-          'Hi ${Provider.of<Person>(context).name}!\nYou are ${Provider.of<Person>(context).age} years old.',
-          textAlign: TextAlign.center,
+    return Consumer<Person>(
+      builder: (context, person, _) => Scaffold(
+        appBar: AppBar(
+          title: Text('Provider Class'),
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(
-          Icons.add,
-          size: 30.0,
+        body: Center(
+          child: Text(
+            'Hi ${person.name}!\nYou are ${person.age} years old.',
+            textAlign: TextAlign.center,
+          ),
         ),
-        onPressed: () =>
-            Provider.of<Person>(context, listen: false).increaseAge(),
+        floatingActionButton: FloatingActionButton(
+          child: Icon(
+            Icons.add,
+            size: 30.0,
+          ),
+          onPressed: () => person.increaseAge(),
+        ),
       ),
     );
   }
