@@ -38,22 +38,20 @@ class MyHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<Person>(
-      builder: (context, person, _) => Scaffold(
+      builder: (context, person, child) => Scaffold(
         appBar: AppBar(
-          title: Text('Provider Class'),
+          title: Text('${person.name} -- ${person.age} years old'),
         ),
-        body: Center(
-          child: Text(
-            'Hi ${person.name}!\nYou are ${person.age} years old.',
-            textAlign: TextAlign.center,
-          ),
-        ),
+        body: child,
         floatingActionButton: FloatingActionButton(
-          child: Icon(
-            Icons.add,
-            size: 30.0,
-          ),
+          child: Icon(Icons.add),
           onPressed: () => person.increaseAge(),
+        ),
+      ),
+      child: Center(
+        child: Text(
+          'Howdy. Imagine there is s listview with hundreds of list tiles here. What an expensive widget!',
+          textAlign: TextAlign.center,
         ),
       ),
     );
